@@ -19,22 +19,34 @@
     <?php
     // Handle form submissions for both adding and updating users
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Check if the 'action' parameter is set in the POST data
         if (isset($_POST['action'])) {
             $action = $_POST['action'];
+
+            // Check the value of 'action' to determine the specific action to perform
             if ($action == 'add') {
+                // If the action is 'add', retrieve the username and password from the POST data
                 $username = $_POST['username'];
                 $password = $_POST['password'];
+
+                // Call the addUser function to add a new user
                 addUser($username, $password);
             } elseif ($action == 'update') {
+                // If the action is 'update', retrieve the user ID, username, and password from the POST data
                 $id = $_POST['id'];
                 $username = $_POST['username'];
                 $password = $_POST['password'];
+
+                // Call the updateUser function to update an existing user
                 updateUser($id, $username, $password);
             }
         }
+
+        // Redirect to the 'list' action after handling the form submission
         header('Location: controller.php?action=list');
         exit;
     }
+
 
     // Display the list of users
     $users = getAllUsers();
