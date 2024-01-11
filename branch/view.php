@@ -30,6 +30,30 @@
     </div>
 
     <script>
+        // Load user list when the page is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserList();
+        });
+
+        function addUser(username, password) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        loadUserList();
+                        //clearForm();
+                        document.getElementById('save').disabled = true;
+                        document.getElementById('update').disabled = false;
+                    } else {
+                        console.error('Error adding user:', xhr.responseText);
+                    }
+                }
+            };
+            xhr.open('POST', 'controller.php?action=add', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send('username=' + username + '&password=' + password);
+        }
+
         function showEditForm(userId) {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
@@ -58,7 +82,7 @@
             document.getElementById('update').disabled = false;
         }
 
-        function clearEditForm() {
+        function clearForm() {
             document.getElementById('editUserId').value = '';
             document.getElementById('editUsername').value = '';
             document.getElementById('editPassword').value = '';
@@ -67,7 +91,7 @@
         }
 
         function resetForm() {
-            clearEditForm();
+            clearForm();
         }
 
         function saveOrUpdateUser() {
@@ -84,23 +108,6 @@
             }
         }
 
-        function addUser(username, password) {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        loadUserList();
-                        clearEditForm();
-                    } else {
-                        console.error('Error adding user:', xhr.responseText);
-                    }
-                }
-            };
-            xhr.open('POST', 'controller.php?action=add', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.send('username=' + username + '&password=' + password);
-        }
-
         function updateUser() {
             var userId = document.getElementById('editUserId').value;
             var username = document.getElementById('editUsername').value;
@@ -111,7 +118,7 @@
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
                         loadUserList();
-                        clearEditForm();
+                        //clearForm();
                     } else {
                         console.error('Error updating user:', xhr.responseText);
                     }
@@ -149,18 +156,13 @@
             });
         }
 
-        // Load user list when the page is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            loadUserList();
-        });
-
         function deleteUser(userId) {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
                         loadUserList();
-                        clearEditForm();
+                        clearForm();
                     } else {
                         console.error('Error deleting user:', xhr.responseText);
                     }
