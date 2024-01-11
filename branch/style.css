@@ -1,0 +1,52 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+form {
+    margin-top: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 700px;
+}
+
+th {
+    border: 1px solid;
+}
+
+td {
+    border: 1px solid;
+    height: 25px;
+    text-align: center;
+    padding: 5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+input{
+    border: 1px solid green;
+    height: 30px;
+    width: 300px;
+    border-top-right-radius: 5px;
+}
+button{
+    width: 100px;
+    height: 30px;
+    margin-left: 35px;
+}
