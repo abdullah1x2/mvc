@@ -35,6 +35,23 @@
             loadUserList();
         });
 
+        function loadUserList() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        document.getElementById('userList').innerHTML = xhr.responseText;
+                        // Add event listeners for edit and delete buttons after updating the user list
+                        addEventListeners();
+                    } else {
+                        console.error('Error loading user list:', xhr.responseText);
+                    }
+                }
+            };
+            xhr.open('GET', 'controller.php?action=list', true);
+            xhr.send();
+        }
+
         function addUser(username, password) {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
@@ -127,23 +144,6 @@
             xhr.open('POST', 'controller.php?action=update', true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.send('id=' + userId + '&username=' + username + '&password=' + password);
-        }
-
-        function loadUserList() {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        document.getElementById('userList').innerHTML = xhr.responseText;
-                        // Add event listeners for edit and delete buttons after updating the user list
-                        addEventListeners();
-                    } else {
-                        console.error('Error loading user list:', xhr.responseText);
-                    }
-                }
-            };
-            xhr.open('GET', 'controller.php?action=list', true);
-            xhr.send();
         }
 
         function addEventListeners() {

@@ -46,8 +46,13 @@ function addUserAction()
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $username = $_POST['username'];
         $password = $_POST['password'];
-        addUser($username, $password);
-        displayUserList();
+
+        if (isUsernameUnique($username)) {
+            addUser($username, $password);
+            displayUserList();
+        } else {
+            echo json_encode(["error" => "Username already exists"]);
+        }
     }
 }
 
@@ -76,14 +81,21 @@ function editUserAction()
     }
 }
 
+
 function updateUserAction()
 {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $id = $_POST['id'];
         $username = $_POST['username'];
         $password = $_POST['password'];
-        updateUser($id, $username, $password);
-        displayUserList();
+
+        // Check if the new username is unique for users other than the one being updated
+        if (isUsernameUnique($username, $id)) {
+            updateUser($id, $username, $password);
+            displayUserList();
+        } else {
+            echo json_encode(['error' => 'Username already exists']);
+        }
     }
 }
 
@@ -95,4 +107,3 @@ function deleteUserAction()
         displayUserList();
     }
 }
-?>
